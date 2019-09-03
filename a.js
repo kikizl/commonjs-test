@@ -1,11 +1,22 @@
-function add(a, b) {
-    return a + b
-}
+const http = require('http')
 
-function mul(a, b) {
-    return a * b
-}
-module.exports = {
-    add,
-    mul
-}
+const server = http.createServer((req, res) => {
+    res.writeHead(200, {'content-type': 'text/html'})
+    res.end('<h1>hello world</h1>')
+})
+
+server.listen(3000, () => {
+    console.log('listening on 3000 port')
+})
+
+// function add(a, b) {
+//     return a + b
+// }
+
+// function mul(a, b) {
+//     return a * b
+// }
+// module.exports = {
+//     add,
+//     mul
+// }
