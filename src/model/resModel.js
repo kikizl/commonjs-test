@@ -14,7 +14,7 @@ class BaseModel {
     }
 }
 
-class SuccsessModel extends BaseModel {
+class SuccessModel extends BaseModel {
     constructor(data, message) {
         super(data, message) // 执行父类
         this.errno = 0
@@ -29,6 +29,6 @@ class ErrorModel extends BaseModel {
 }
 
 module.exports = {
-    SuccsessModel,
+    SuccessModel,
     ErrorModel
 }
