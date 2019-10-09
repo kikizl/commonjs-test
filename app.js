@@ -16,21 +16,23 @@ const getPostData = (req) => {
             resolve({})
             return
         }
+
+        let postData = ''
+        req.on('data', chunk => {
+            postData += chunk.toString()
+        })
+
+        req.on('end', () => {
+            if (!postData) {
+                resolve({})
+                return
+            }
+             resolve(
+                JSON.parse(postData)
+            )
+        })
     })
 
-    let postData = ''
-    req.on('data', chunk => {
-        postData += chunk.toString()
-    })
-    req.on('end', () => {
-        if (!postData) {
-            resolve({})
-            return
-        }
-         resolve(
-            JSON.parse(postData)
-        )
-    })
     return promise
 }
 
@@ -50,15 +52,24 @@ const serverHandle = (req, res) => {
         req.body = postData
 
         // 处理 blog 路由
-        const blogData = handleBlogRouter(req, res)
-        if (blogData) {
-            res.end(
-                JSON.stringify(blogData)
-            )
-            return 
+        // const blogData = handleBlogRouter(req, res)
+        // if (blogData) {
+        //     res.end(
+        //         JSON.stringify(blogData)
+        //     )
+        //     return 
+        // }
+        const  blogResult = handleBlogRouter(req, res)
+        if (blogResult) {
+            blogResult.then(blogData => {
+                res.end(
+                    JSON.stringify(blogData)
+                )
+            })
+            return
         }
 
-        // 处理 user 路由
+         // 处理 user 路由
             const  userData = handleUserRouter(req, res)
             if (userData) {
             res.end(
